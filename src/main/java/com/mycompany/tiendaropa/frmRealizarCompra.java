@@ -15,6 +15,15 @@ public class frmRealizarCompra extends javax.swing.JPanel {
      */
     public frmRealizarCompra() {
         initComponents();
+         public frmRealizarCompra() {
+        initComponents();
+        this.tabledetalles.setModel(modelo);
+        this.modelo.addColumn("NATIONALIDAD");
+         this.modelo.addColumn("GENERO");
+          this.modelo.addColumn("TALLA");
+          this.modelo.addColumn("PRENDAS");
+          this.modelo.addColumn("CANTIDAD");
+          this.modelo.addColumn("TOTAL A PAGAR");
     }
 
     /**
@@ -366,7 +375,47 @@ public class frmRealizarCompra extends javax.swing.JPanel {
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    DefaultTableModel modelo=new DefaultTableModel();
+    // TODO add your handling code here:
+     private void spcantidadActionPerformed(java.awt.event.ActionEvent evt) {                                                
+        // TODO add your handling code here:
+    }                                               
+    public void descuentos_hombre_extrangeros(){
+       double cantidad_s,precio_s,total_s,desc_s=0.04;
+       double cantidad_m,precio_m,total_m,desc_m=0.09;
+       double cantidad_l,precio_l,total_l,desc_l=0.12;
+       
+       if(cbonacionalidad.getSelectedIndex()==2){
+          if(this.botonh.isSelected()){
+            if(cbotallas.getSelectedIndex()==1){
+                cantidad_s=Double.parseDouble(this.spcantidad.getName());
+                 precio_s=Double.parseDouble(this.txtprecio.getText());
+                  total_s=(precio_s*cantidad_s)-((cantidad_s*precio_s)*desc_s);
+                  this.txttotal.setText(String.valueOf(total_s));
+                  
+            }
+          }
+       }
+      if (cbonacionalidad.getSelectedIndex()==2){
+       if(this.botonh.isSelected()){
+         if(cbotallas.getSelectedIndex()==2){
+               cantidad_m=Double.parseDouble(this.spcantidad.getName());
+                 precio_m=Double.parseDouble(this.txtprecio.getText());
+                  total_m=(precio_m*cantidad_m)-((cantidad_m*precio_m)*desc_s);
+                  this.txttotal.setText(String.valueOf(total_m));
+         }
+       }
+      }
+       if (cbonacionalidad.getSelectedIndex()==2){
+       if(this.botonh.isSelected()){
+         if(cbotallas.getSelectedIndex()==3){
+               cantidad_l=Double.parseDouble(this.spcantidad.getName());
+                 precio_l=Double.parseDouble(this.txtprecio.getText());
+                  total_l=(precio_l*cantidad_l)-((cantidad_l*precio_l)*desc_s);
+                  this.txttotal.setText(String.valueOf(total_l));
+         }
+       }}
+    }
     private void cbonacionalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbonacionalidadActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbonacionalidadActionPerformed
