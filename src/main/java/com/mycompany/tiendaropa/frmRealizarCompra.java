@@ -587,6 +587,23 @@ public class frmRealizarCompra extends javax.swing.JPanel {
             }
         }
         
+        private btngenerarActionPerformed(java.awt.event.ActionEvent evt){
+            descuentos_hombres_mexicanos();
+            descuentos_mujeres_mexicanas();
+            descuento_mujeres_extranjeras();
+            descuentos_hombre_extranjeros();
+
+            if(botonh.isSelected()){
+                this.modelo.addRow(new Object[]{this.cbonacionalidad.getSelectedItem(),"Hombre",
+                this.cbotallas.getSelectedItem(),this.txtprenda.getText(),this.txtcantidad.getText(),
+                this.txtprecio.getText(),this.txttotal.getText()});
+            }
+            else if(botonm.isSelected()){
+                 this.modelo.addRow(new Object[]{this.cbonacionalidad.getSelectedItem(),"Mujer",
+                this.cbotallas.getSelectedItem(),this.txtprenda.getText(),this.txtcantidad.getText(),
+                this.txtprecio.getText(),this.txttotal.getText()});
+            }
+        }
 
     }
 
