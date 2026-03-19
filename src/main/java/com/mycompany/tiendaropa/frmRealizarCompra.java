@@ -551,6 +551,45 @@ public class frmRealizarCompra extends javax.swing.JPanel {
             
         }        
     } 
+    public  void descuentos_hombres_mexicanos(){
+        double cantidad_s,precio_s,total_s,desc_s=0.05;
+        double cantidad_m,precio_m,total_m,desc_m=0.07;
+        double cantidad_l,precio_l,total_l,desc_l=0.10;
+
+        if(cbonacionalidad.getSelectedIndex()==1){
+            if(this.botonh.isSelected()){
+                if(cbotallas.getSelectedIndex()==1){
+                    cantidad_s=Double.parseDouble(this.txtcantidad.getText());
+                    precio_s=Double.parseDouble(this.txtprecio.getText());
+                    total_s=(precio_s*cantidad_s)-((cantidad_s*precio_s)*desc_s);
+                    this.txttotal.setText(String.valueOf(total_s));
+                }
+            }
+        }
+         if(cbonacionalidad.getSelectedIndex()==1){
+            if(this.botonh.isSelected()){
+                if(cbotallas.getSelectedIndex()==2){
+                    cantidad_m=Double.parseDouble(this.txtcantidad.getText());
+                    precio_m=Double.parseDouble(this.txtprecio.getText());
+                    total_m=(precio_m*cantidad_m)-((cantidad_m*precio_m*desc_m);
+                    this.txttotal.setText(String.valueOf(total_m));
+                }
+            }
+        }
+        if(cbonacionalidad.getSelectedIndex()==1){
+            if(this.botonh.isSelected()){
+                if(cbotallas.getSelectedIndex()==3){
+                    cantidad_l=Double.parseDouble(this.txtcantidad.getText());
+                    precio_l=Double.parseDouble(this.txtprecio.getText());
+                    total_l=(precio_l*cantidad_l)-((cantidad_l*precio_l*desc_l);
+                    this.txttotal.setText(String.valueOf(total_l));
+                }
+            }
+        }
+        
+
+    }
+
     private void cbonacionalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbonacionalidadActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbonacionalidadActionPerformed
