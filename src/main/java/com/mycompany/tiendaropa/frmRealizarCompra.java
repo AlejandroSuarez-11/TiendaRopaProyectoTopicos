@@ -14,15 +14,14 @@ public class frmRealizarCompra extends javax.swing.JPanel {
      */
     public frmRealizarCompra() {
         initComponents();
-         public frmRealizarCompra() {
-        initComponents();
+        
         this.tabledetalles.setModel(modelo);
         this.modelo.addColumn("NATIONALIDAD");
-         this.modelo.addColumn("GENERO");
-          this.modelo.addColumn("TALLA");
-          this.modelo.addColumn("PRENDAS");
-          this.modelo.addColumn("CANTIDAD");
-          this.modelo.addColumn("TOTAL A PAGAR");
+        this.modelo.addColumn("GENERO");
+        this.modelo.addColumn("TALLA");
+        this.modelo.addColumn("PRENDAS");
+        this.modelo.addColumn("CANTIDAD");
+        this.modelo.addColumn("TOTAL A PAGAR");
     }
 
     /**
@@ -231,6 +230,7 @@ public class frmRealizarCompra extends javax.swing.JPanel {
         jPanel6.add(jSeparator16);
 
         btngenerar.setText("Generar Compra");
+        btngenerar.addActionListener(this::btngenerarActionPerformed);
         jPanel6.add(btngenerar);
 
         jSeparator19.setBackground(new java.awt.Color(255, 255, 255));
@@ -240,6 +240,7 @@ public class frmRealizarCompra extends javax.swing.JPanel {
         jPanel6.add(jSeparator19);
 
         btnlimpiar.setText("Limpiar");
+        btnlimpiar.addActionListener(this::btnlimpiarActionPerformed);
         jPanel6.add(btnlimpiar);
 
         jSeparator20.setBackground(new java.awt.Color(255, 255, 255));
@@ -312,6 +313,7 @@ public class frmRealizarCompra extends javax.swing.JPanel {
         jPanel5.add(jSeparator13);
 
         btnquitar.setText("Quitar Compra");
+        btnquitar.addActionListener(this::btnquitarActionPerformed);
         jPanel5.add(btnquitar);
 
         jSeparator14.setBackground(new java.awt.Color(139, 150, 149));
@@ -321,6 +323,7 @@ public class frmRealizarCompra extends javax.swing.JPanel {
         jPanel5.add(jSeparator14);
 
         btnnetopagar.setText("Total Neto a Pagar");
+        btnnetopagar.addActionListener(this::btnnetopagarActionPerformed);
         jPanel5.add(btnnetopagar);
 
         jSeparator15.setBackground(new java.awt.Color(139, 150, 149));
@@ -551,7 +554,7 @@ public class frmRealizarCompra extends javax.swing.JPanel {
             
         }        
     } 
-    public  void descuentos_hombres_mexicanos(){
+    /* public void descuentos_hombres_mexicanos(){  //Este metodo esta duplicado
         double cantidad_s,precio_s,total_s,desc_s=0.05;
         double cantidad_m,precio_m,total_m,desc_m=0.07;
         double cantidad_l,precio_l,total_l,desc_l=0.10;
@@ -571,7 +574,7 @@ public class frmRealizarCompra extends javax.swing.JPanel {
                 if(cbotallas.getSelectedIndex()==2){
                     cantidad_m=Double.parseDouble(this.txtcantidad.getText());
                     precio_m=Double.parseDouble(this.txtprecio.getText());
-                    total_m=(precio_m*cantidad_m)-((cantidad_m*precio_m*desc_m);
+                    total_m=(precio_m*cantidad_m)-(cantidad_m*precio_m*desc_m);
                     this.txttotal.setText(String.valueOf(total_m));
                 }
             }
@@ -581,31 +584,13 @@ public class frmRealizarCompra extends javax.swing.JPanel {
                 if(cbotallas.getSelectedIndex()==3){
                     cantidad_l=Double.parseDouble(this.txtcantidad.getText());
                     precio_l=Double.parseDouble(this.txtprecio.getText());
-                    total_l=(precio_l*cantidad_l)-((cantidad_l*precio_l*desc_l);
+                    total_l=(precio_l*cantidad_l)-(cantidad_l*precio_l*desc_l);
                     this.txttotal.setText(String.valueOf(total_l));
                 }
             }
         }
-        
-        private btngenerarActionPerformed(java.awt.event.ActionEvent evt){
-            descuentos_hombres_mexicanos();
-            descuentos_mujeres_mexicanas();
-            descuento_mujeres_extranjeras();
-            descuentos_hombre_extranjeros();
-
-            if(botonh.isSelected()){
-                this.modelo.addRow(new Object[]{this.cbonacionalidad.getSelectedItem(),"Hombre",
-                this.cbotallas.getSelectedItem(),this.txtprenda.getText(),this.txtcantidad.getText(),
-                this.txtprecio.getText(),this.txttotal.getText()});
-            }
-            else if(botonm.isSelected()){
-                 this.modelo.addRow(new Object[]{this.cbonacionalidad.getSelectedItem(),"Mujer",
-                this.cbotallas.getSelectedItem(),this.txtprenda.getText(),this.txtcantidad.getText(),
-                this.txtprecio.getText(),this.txttotal.getText()});
-            }
-        }
-
-    }
+  
+    } */
 
     private void cbonacionalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbonacionalidadActionPerformed
         // TODO add your handling code here:
@@ -621,7 +606,73 @@ public class frmRealizarCompra extends javax.swing.JPanel {
 
     private void btnlimpiartablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlimpiartablaActionPerformed
         // TODO add your handling code here:
+        int x = this.modelo.getRowCount();
+        for (int y = 0; y <= 10; y++) {
+            this.modelo.removeRow(0);
+        }
+        this.txtnetopagar.setText("");
     }//GEN-LAST:event_btnlimpiartablaActionPerformed
+
+    private void btngenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngenerarActionPerformed
+        // TODO add your handling code here:
+   
+            descuentos_hombres_mexicanos();
+            descuentos_mujeres_mexicanas();
+            descuento_mujeres_extranjeras();
+            descuentos_hombre_extranjeros();
+
+            if(botonh.isSelected()){
+                this.modelo.addRow(new Object[]{this.cbonacionalidad.getSelectedItem(),"Hombre",
+                this.cbotallas.getSelectedItem(),this.txtprenda.getText(),this.txtcantidad.getText(),
+                this.txtprecio.getText(),this.txttotal.getText()});
+            }
+            else if(botonm.isSelected()){
+                 this.modelo.addRow(new Object[]{this.cbonacionalidad.getSelectedItem(),"Mujer",
+                this.cbotallas.getSelectedItem(),this.txtprenda.getText(),this.txtcantidad.getText(),
+                this.txtprecio.getText(),this.txttotal.getText()});
+            }
+        
+
+
+
+    }//GEN-LAST:event_btngenerarActionPerformed
+
+    private void btnlimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlimpiarActionPerformed
+        // TODO add your handling code here:
+   this.cbonacionalidad.setSelectedIndex(0);
+        if (botonh.isSelected()) {
+        }
+        if (botonm.isSelected()) {
+        }
+        this.cbotallas.setSelectedIndex(0);
+        this.txtprenda.setText("");
+        this.txtprecio.setText("");
+        this.txtnetopagar.setText("");
+        this.txttotal.setText("");
+        
+
+    }//GEN-LAST:event_btnlimpiarActionPerformed
+
+    private void btnquitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnquitarActionPerformed
+        // TODO add your handling code here:
+        modelo.removeRow(this.tabledetalles.getSelectedColumn());
+    }//GEN-LAST:event_btnquitarActionPerformed
+
+    private void btnnetopagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnetopagarActionPerformed
+        // TODO add your handling code here:
+        double sumatoria;
+        double sumatorial = 0;
+        int totalrow=tabledetalles.getRowCount();
+        totalrow-=1;
+        for (int i = 0; i <= (totalrow); i++) {
+            sumatoria=Double.parseDouble(String.valueOf(tabledetalles.getValueAt(i, 6)));
+            sumatorial+=sumatoria;
+            
+        }
+        txtnetopagar.setText("S."+String.valueOf(sumatorial));
+        
+        
+    }//GEN-LAST:event_btnnetopagarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
