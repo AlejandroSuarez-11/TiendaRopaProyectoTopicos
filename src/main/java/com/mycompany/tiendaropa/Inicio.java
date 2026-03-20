@@ -19,6 +19,7 @@ public class Inicio extends javax.swing.JFrame {
         initComponents();
         // Centrar ventana
         this.setLocationRelativeTo(null);
+        this.setResizable(false);
     }
 
     /**
@@ -32,20 +33,25 @@ public class Inicio extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         btnrealizarcompra = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
         jButton2 = new javax.swing.JButton();
         panelpizarra = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(102, 255, 102));
-        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.X_AXIS));
+        jPanel1.setBackground(new java.awt.Color(139, 150, 149));
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         btnrealizarcompra.setText("Realizar Compra");
         btnrealizarcompra.addActionListener(this::btnrealizarcompraActionPerformed);
-        jPanel1.add(btnrealizarcompra);
+        jPanel1.add(btnrealizarcompra, new java.awt.GridBagConstraints());
 
-        jButton2.setText("jButton2");
-        jPanel1.add(jButton2);
+        jSeparator1.setPreferredSize(new java.awt.Dimension(5, 10));
+        jPanel1.add(jSeparator1, new java.awt.GridBagConstraints());
+
+        jButton2.setText("Informacion Sobre Tallas");
+        jButton2.addActionListener(this::jButton2ActionPerformed);
+        jPanel1.add(jButton2, new java.awt.GridBagConstraints());
 
         panelpizarra.setBackground(new java.awt.Color(255, 255, 255));
         panelpizarra.setPreferredSize(new java.awt.Dimension(0, 600));
@@ -88,6 +94,25 @@ public class Inicio extends javax.swing.JFrame {
         panelpizarra.repaint();
     }//GEN-LAST:event_btnrealizarcompraActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // Creamos una instancia del panel de informacion
+        frmInformacionTallas seccionInformacion = new frmInformacionTallas();
+        
+        // Asignamos el tamaño del contenedor
+        seccionInformacion.setSize(panelpizarra.getWidth(), panelpizarra.getHeight());
+        seccionInformacion.setLocation(0,0);
+    
+        // Limpiamos el contenedor por si hay alguna seccion abierta
+        panelpizarra.removeAll();
+    
+        // Agregamos el nuevo panel al centro
+        panelpizarra.add(seccionInformacion, java.awt.BorderLayout.CENTER);
+    
+        // Avisamos a Swingg que se actualice la vista
+        panelpizarra.revalidate();
+        panelpizarra.repaint();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -117,6 +142,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JButton btnrealizarcompra;
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel panelpizarra;
     // End of variables declaration//GEN-END:variables
 }

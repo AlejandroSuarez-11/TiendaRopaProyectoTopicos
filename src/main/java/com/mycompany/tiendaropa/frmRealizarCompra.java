@@ -14,6 +14,22 @@ public class frmRealizarCompra extends javax.swing.JPanel {
      */
     public frmRealizarCompra() {
         initComponents();
+            
+    // Configuracion del atajo del teclado (Ctrl+D) "Limpiar Tabla"
+    // Definimos la combinacion de teclas en el panel principal
+    this.getInputMap(javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW)
+        .put(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, 
+             java.awt.event.InputEvent.CTRL_DOWN_MASK), "accionLimpiarTabla");
+
+    // Definimos el comando que se ejecutara cuando se presiona esa combinacion de teclas
+    this.getActionMap().put("accionLimpiarTabla", new javax.swing.AbstractAction() {
+        @Override
+        public void actionPerformed(java.awt.event.ActionEvent e) {
+            // Llamamos al metodo que borra la tabla
+            limpiarTabla();
+        }
+    });
+
         
         this.tabledetalles.setModel(modelo);
         this.modelo.addColumn("NATIONALIDAD");
@@ -21,7 +37,11 @@ public class frmRealizarCompra extends javax.swing.JPanel {
         this.modelo.addColumn("TALLA");
         this.modelo.addColumn("PRENDAS");
         this.modelo.addColumn("CANTIDAD");
+        this.modelo.addColumn("PRECIO");
         this.modelo.addColumn("TOTAL A PAGAR");
+        // Configuracion de Spiner "Valor inicial, Minimo, Maximo, Incremento"
+        spcantidad.setModel(new javax.swing.SpinnerNumberModel(1, 1, 100, 1));
+       
     }
 
     /**
@@ -217,6 +237,7 @@ public class frmRealizarCompra extends javax.swing.JPanel {
 
         txtprecio.setMaximumSize(new java.awt.Dimension(90, 2147483647));
         txtprecio.setPreferredSize(new java.awt.Dimension(90, 25));
+        txtprecio.addActionListener(this::txtprecioActionPerformed);
         jPanel3.add(txtprecio);
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
@@ -255,6 +276,7 @@ public class frmRealizarCompra extends javax.swing.JPanel {
         txttotal.setActionCommand("<Not Set>");
         txttotal.setMaximumSize(new java.awt.Dimension(90, 2147483647));
         txttotal.setPreferredSize(new java.awt.Dimension(90, 25));
+        txttotal.addActionListener(this::txttotalActionPerformed);
         jPanel6.add(txttotal);
 
         jPanel4.setBackground(new java.awt.Color(139, 150, 149));
@@ -376,6 +398,7 @@ public class frmRealizarCompra extends javax.swing.JPanel {
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
     DefaultTableModel modelo=new DefaultTableModel();
     // TODO add your handling code here:
      private void spcantidadActionPerformed(java.awt.event.ActionEvent evt) {                                                
@@ -388,10 +411,11 @@ public class frmRealizarCompra extends javax.swing.JPanel {
         Double cantidad_l,precio_l,total_l,desc_l = 0.10;
         
         //Selecciona S
-        if(cbonacionalidad.getSelectedIndex() == 2){
+        if(cbonacionalidad.getSelectedIndex() == 1){
             if(this.botonh.isSelected()){
                if(cbotallas.getSelectedIndex() == 1){
-                   cantidad_s = Double.parseDouble(this.spcantidad.getName());
+                   // Obtenemos el valor seleccionado del spinner y lo convertimos en texto
+                   cantidad_s = Double.parseDouble(this.spcantidad.getValue().toString());
                    precio_s = Double.parseDouble(this.txtprecio.getText());
                    total_s = (precio_s*cantidad_s)-((cantidad_s*precio_s)*desc_s);
                    this.txttotal.setText(String.valueOf(total_s));
@@ -404,7 +428,7 @@ public class frmRealizarCompra extends javax.swing.JPanel {
         if(cbonacionalidad.getSelectedIndex() == 2){
             if(this.botonh.isSelected()){
                if(cbotallas.getSelectedIndex() == 2){
-                   cantidad_m = Double.parseDouble(this.spcantidad.getName());
+                   cantidad_m = Double.parseDouble(this.spcantidad.getValue().toString());
                    precio_m = Double.parseDouble(this.txtprecio.getText());
                    total_m = (precio_m*cantidad_m)-((cantidad_m*precio_m)*desc_m);
                    this.txttotal.setText(String.valueOf(total_m));
@@ -416,7 +440,7 @@ public class frmRealizarCompra extends javax.swing.JPanel {
         if(cbonacionalidad.getSelectedIndex() == 1){
             if(this.botonh.isSelected()){
                if(cbotallas.getSelectedIndex() ==3){
-                   cantidad_l = Double.parseDouble(this.spcantidad.getName());
+                   cantidad_l = Double.parseDouble(this.spcantidad.getValue().toString());
                    precio_l = Double.parseDouble(this.txtprecio.getText());
                    total_l = (precio_l*cantidad_l)-((cantidad_l*precio_l)*desc_l);
                    this.txttotal.setText(String.valueOf(total_l));
@@ -426,90 +450,46 @@ public class frmRealizarCompra extends javax.swing.JPanel {
     }
 
     public void descuentos_hombre_extranjeros(){
-       double cantidad_s,precio_s,total_s,desc_s=0.04;
-       double cantidad_m,precio_m,total_m,desc_m=0.09;
-       double cantidad_l,precio_l,total_l,desc_l=0.12;
-       
-       //Selecciona S
-       if(cbonacionalidad.getSelectedIndex()==2){
-          if(this.botonh.isSelected()){
-            if(cbotallas.getSelectedIndex()==1){
-                cantidad_s=Double.parseDouble(this.spcantidad.getName());
-                 precio_s=Double.parseDouble(this.txtprecio.getText());
-                  total_s=(precio_s*cantidad_s)-((cantidad_s*precio_s)*desc_s);
-                  this.txttotal.setText(String.valueOf(total_s));
-                  
+    double cantidad_s, precio_s, total_s, desc_s = 0.04;
+    double cantidad_m, precio_m, total_m, desc_m = 0.09;
+    double cantidad_l, precio_l, total_l, desc_l = 0.12;
+
+    // Selecciona S
+    if (cbonacionalidad.getSelectedIndex() == 2) {
+        if (this.botonh.isSelected()) {
+            if (cbotallas.getSelectedIndex() == 1) {
+                cantidad_s = Double.parseDouble(this.spcantidad.getValue().toString());
+                precio_s = Double.parseDouble(this.txtprecio.getText());
+                total_s = (precio_s * cantidad_s) - ((cantidad_s * precio_s) * desc_s);
+                this.txttotal.setText(String.valueOf(total_s));
             }
-          }
-       }
-       //Selecciona M
-      if (cbonacionalidad.getSelectedIndex()==2){
-       if(this.botonh.isSelected()){
-         if(cbotallas.getSelectedIndex()==2){
-               cantidad_m=Double.parseDouble(this.spcantidad.getName());
-                 precio_m=Double.parseDouble(this.txtprecio.getText());
-                  total_m=(precio_m*cantidad_m)-((cantidad_m*precio_m)*desc_m);
-                  this.txttotal.setText(String.valueOf(total_m));
-         }
-       }
-      }
-      //Seleccionamos L
-       if (cbonacionalidad.getSelectedIndex()==2){
-       if(this.botonh.isSelected()){
-         if(cbotallas.getSelectedIndex()==3){
-               cantidad_l=Double.parseDouble(this.spcantidad.getName());
-                 precio_l=Double.parseDouble(this.txtprecio.getText());
-                  total_l=(precio_l*cantidad_l)-((cantidad_l*precio_l)*desc_l);
-                  this.txttotal.setText(String.valueOf(total_l));
-            }
-          }
-       }
+        }
     }
-    
-    public void descuento_mujeres_extranjeras(){
-        Double cantidad_s,precio_s,total_s,desc_s = 0.05;
-        Double cantidad_m,precio_m,total_m,desc_m = 0.07;
-        Double cantidad_l,precio_l,total_l,desc_l = 0.10;
-        
-        //Selecciona S
-        if(cbonacionalidad.getSelectedIndex() == 2){
-            if(this.botonm.isSelected()){
-               if(cbotallas.getSelectedIndex() == 1){
-                   cantidad_s = Double.parseDouble(this.spcantidad.getName());
-                   precio_s = Double.parseDouble(this.txtprecio.getText());
-                   total_s = (precio_s*cantidad_s)-((cantidad_s*precio_s)*desc_s);
-                   this.txttotal.setText(String.valueOf(total_s));
-               } 
+
+    // Selecciona M
+    if (cbonacionalidad.getSelectedIndex() == 2) {
+        if (this.botonh.isSelected()) {
+            if (cbotallas.getSelectedIndex() == 2) {
+                cantidad_m = Double.parseDouble(this.spcantidad.getValue().toString());
+                precio_m = Double.parseDouble(this.txtprecio.getText());
+                total_m = (precio_m * cantidad_m) - ((cantidad_m * precio_m) * desc_m);
+                this.txttotal.setText(String.valueOf(total_m));
             }
-            
         }
-        
-        //Selecciona M
-        if(cbonacionalidad.getSelectedIndex() == 2){
-            if(this.botonm.isSelected()){
-               if(cbotallas.getSelectedIndex() == 2){
-                   cantidad_m = Double.parseDouble(this.spcantidad.getName());
-                   precio_m = Double.parseDouble(this.txtprecio.getText());
-                   total_m = (precio_m*cantidad_m)-((cantidad_m*precio_m)*desc_m);
-                   this.txttotal.setText(String.valueOf(total_m));
-               } 
-            }
-            
-        }
-        //Selecciona L
-        if(cbonacionalidad.getSelectedIndex() == 2){
-            if(this.botonm.isSelected()){
-               if(cbotallas.getSelectedIndex() == 3){
-                   cantidad_l = Double.parseDouble(this.spcantidad.getName());
-                   precio_l = Double.parseDouble(this.txtprecio.getText());
-                   total_l = (precio_l*cantidad_l)-((cantidad_l*precio_l)*desc_l);
-                   this.txttotal.setText(String.valueOf(total_l));
-               } 
-            }
-            
-        }
-        
     }
+
+    // Selecciona L
+    if (cbonacionalidad.getSelectedIndex() == 2) {
+        if (this.botonh.isSelected()) {
+            if (cbotallas.getSelectedIndex() == 3) {
+                cantidad_l = Double.parseDouble(this.spcantidad.getValue().toString());
+                precio_l = Double.parseDouble(this.txtprecio.getText());
+                total_l = (precio_l * cantidad_l) - ((cantidad_l * precio_l) * desc_l);
+                this.txttotal.setText(String.valueOf(total_l));
+            }
+        }
+    }
+}
     
     public void descuentos_mujeres_mexicanas(){
      Double cantidad_s,precio_s,total_s,desc_s = 0.04;
@@ -517,10 +497,10 @@ public class frmRealizarCompra extends javax.swing.JPanel {
         Double cantidad_l,precio_l,total_l,desc_l = 0.12;
         
         //Selecciona S
-        if(cbonacionalidad.getSelectedIndex() == 2){
+        if(cbonacionalidad.getSelectedIndex() == 1){
             if(this.botonm.isSelected()){
                if(cbotallas.getSelectedIndex() == 1){
-                   cantidad_s = Double.parseDouble(this.spcantidad.getName());
+                   cantidad_s = Double.parseDouble(this.spcantidad.getValue().toString());
                    precio_s = Double.parseDouble(this.txtprecio.getText());
                    total_s = (precio_s*cantidad_s)-((cantidad_s*precio_s)*desc_s);
                    this.txttotal.setText(String.valueOf(total_s));
@@ -530,10 +510,10 @@ public class frmRealizarCompra extends javax.swing.JPanel {
         }
         
         //Selecciona M
-        if(cbonacionalidad.getSelectedIndex() == 2){
+        if(cbonacionalidad.getSelectedIndex() == 1){
             if(this.botonm.isSelected()){
                if(cbotallas.getSelectedIndex() == 2){
-                   cantidad_m = Double.parseDouble(this.spcantidad.getName());
+                   cantidad_m = Double.parseDouble(this.spcantidad.getValue().toString());
                    precio_m = Double.parseDouble(this.txtprecio.getText());
                    total_m = (precio_m*cantidad_m)-((cantidad_m*precio_m)*desc_m);
                    this.txttotal.setText(String.valueOf(total_m));
@@ -545,7 +525,7 @@ public class frmRealizarCompra extends javax.swing.JPanel {
         if(cbonacionalidad.getSelectedIndex() == 1){
             if(this.botonm.isSelected()){
                if(cbotallas.getSelectedIndex() == 3){
-                   cantidad_l = Double.parseDouble(this.spcantidad.getName());
+                   cantidad_l = Double.parseDouble(this.spcantidad.getValue().toString());
                    precio_l = Double.parseDouble(this.txtprecio.getText());
                    total_l = (precio_l*cantidad_l)-((cantidad_l*precio_l)*desc_l);
                    this.txttotal.setText(String.valueOf(total_l));
@@ -554,43 +534,39 @@ public class frmRealizarCompra extends javax.swing.JPanel {
             
         }        
     } 
-    /* public void descuentos_hombres_mexicanos(){  //Este metodo esta duplicado
-        double cantidad_s,precio_s,total_s,desc_s=0.05;
-        double cantidad_m,precio_m,total_m,desc_m=0.07;
-        double cantidad_l,precio_l,total_l,desc_l=0.10;
+    
+    public void descuento_mujeres_extranjeras() {
+    Double cantidad_s, precio_s, total_s, desc_s = 0.05;
+    Double cantidad_m, precio_m, total_m, desc_m = 0.07;
+    Double cantidad_l, precio_l, total_l, desc_l = 0.10;
 
-        if(cbonacionalidad.getSelectedIndex()==1){
-            if(this.botonh.isSelected()){
-                if(cbotallas.getSelectedIndex()==1){
-                    cantidad_s=Double.parseDouble(this.txtcantidad.getText());
-                    precio_s=Double.parseDouble(this.txtprecio.getText());
-                    total_s=(precio_s*cantidad_s)-((cantidad_s*precio_s)*desc_s);
-                    this.txttotal.setText(String.valueOf(total_s));
-                }
+    // Nacionalidad 2 es Extranjero
+    if (cbonacionalidad.getSelectedIndex() == 2) {
+        if (this.botonm.isSelected()) {
+            // Talla S (Índice 1)
+            if (cbotallas.getSelectedIndex() == 1) {
+                cantidad_s = Double.parseDouble(this.spcantidad.getValue().toString());
+                precio_s = Double.parseDouble(this.txtprecio.getText());
+                total_s = (precio_s * cantidad_s) - ((cantidad_s * precio_s) * desc_s);
+                this.txttotal.setText(String.valueOf(total_s));
+            }
+            // Talla M (Índice 2)
+            if (cbotallas.getSelectedIndex() == 2) {
+                cantidad_m = Double.parseDouble(this.spcantidad.getValue().toString());
+                precio_m = Double.parseDouble(this.txtprecio.getText());
+                total_m = (precio_m * cantidad_m) - ((cantidad_m * precio_m) * desc_m);
+                this.txttotal.setText(String.valueOf(total_m));
+            }
+            // Talla L (Índice 3)
+            if (cbotallas.getSelectedIndex() == 3) {
+                cantidad_l = Double.parseDouble(this.spcantidad.getValue().toString());
+                precio_l = Double.parseDouble(this.txtprecio.getText());
+                total_l = (precio_l * cantidad_l) - ((cantidad_l * precio_l) * desc_l);
+                this.txttotal.setText(String.valueOf(total_l));
             }
         }
-         if(cbonacionalidad.getSelectedIndex()==1){
-            if(this.botonh.isSelected()){
-                if(cbotallas.getSelectedIndex()==2){
-                    cantidad_m=Double.parseDouble(this.txtcantidad.getText());
-                    precio_m=Double.parseDouble(this.txtprecio.getText());
-                    total_m=(precio_m*cantidad_m)-(cantidad_m*precio_m*desc_m);
-                    this.txttotal.setText(String.valueOf(total_m));
-                }
-            }
-        }
-        if(cbonacionalidad.getSelectedIndex()==1){
-            if(this.botonh.isSelected()){
-                if(cbotallas.getSelectedIndex()==3){
-                    cantidad_l=Double.parseDouble(this.txtcantidad.getText());
-                    precio_l=Double.parseDouble(this.txtprecio.getText());
-                    total_l=(precio_l*cantidad_l)-(cantidad_l*precio_l*desc_l);
-                    this.txttotal.setText(String.valueOf(total_l));
-                }
-            }
-        }
-  
-    } */
+    }
+}
 
     private void cbonacionalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbonacionalidadActionPerformed
         // TODO add your handling code here:
@@ -606,11 +582,8 @@ public class frmRealizarCompra extends javax.swing.JPanel {
 
     private void btnlimpiartablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlimpiartablaActionPerformed
         // TODO add your handling code here:
-        int x = this.modelo.getRowCount();
-        for (int y = 0; y <= 10; y++) {
-            this.modelo.removeRow(0);
-        }
-        this.txtnetopagar.setText("");
+        limpiarTabla();
+        
     }//GEN-LAST:event_btnlimpiartablaActionPerformed
 
     private void btngenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngenerarActionPerformed
@@ -622,24 +595,47 @@ public class frmRealizarCompra extends javax.swing.JPanel {
             descuentos_hombre_extranjeros();
 
             if(botonh.isSelected()){
-                this.modelo.addRow(new Object[]{this.cbonacionalidad.getSelectedItem(),"Hombre",
-                this.cbotallas.getSelectedItem(),this.txtprenda.getText(),this.txtcantidad.getText(),
-                this.txtprecio.getText(),this.txttotal.getText()});
-            }
-            else if(botonm.isSelected()){
-                 this.modelo.addRow(new Object[]{this.cbonacionalidad.getSelectedItem(),"Mujer",
-                this.cbotallas.getSelectedItem(),this.txtprenda.getText(),this.txtcantidad.getText(),
-                this.txtprecio.getText(),this.txttotal.getText()});
-            }
-        
-
-
+        this.modelo.addRow(new Object[]{
+            this.cbonacionalidad.getSelectedItem(),
+            "Hombre",
+            this.cbotallas.getSelectedItem(),
+            this.txtprenda.getText(),
+            // Obtenemos el "Valor" del Spin y lo convertimos en texto
+            this.spcantidad.getValue().toString(), 
+            this.txtprecio.getText(),
+            this.txttotal.getText()
+        });
+    }
+    else if(botonm.isSelected()){
+         this.modelo.addRow(new Object[]{
+            this.cbonacionalidad.getSelectedItem(),
+            "Mujer",
+            this.cbotallas.getSelectedItem(),
+            this.txtprenda.getText(),
+            // Obtenemos el "Valor" del Spin y lo convertimos en texto
+            this.spcantidad.getValue().toString(),
+            this.txtprecio.getText(),
+            this.txttotal.getText()
+        });
+         
+         calcularNeto();
+    }
 
     }//GEN-LAST:event_btngenerarActionPerformed
 
+    public void calcularNeto() {
+    double sumaTotal = 0;
+    for (int i = 0; i < tabledetalles.getRowCount(); i++) {
+        // Obtenemos el valor de la columna 6 la cual es "Total a Pagar"
+        String valorFila = tabledetalles.getValueAt(i, 6).toString();
+        sumaTotal += Double.parseDouble(valorFila);
+    }
+    // Asignamos (Settear) en txtnetopagar
+    this.txtnetopagar.setText(String.format("%.2f", sumaTotal));
+    }
+    
     private void btnlimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlimpiarActionPerformed
-        // TODO add your handling code here:
-   this.cbonacionalidad.setSelectedIndex(0);
+        this.cbonacionalidad.setSelectedIndex(0);
         if (botonh.isSelected()) {
         }
         if (botonm.isSelected()) {
@@ -649,13 +645,20 @@ public class frmRealizarCompra extends javax.swing.JPanel {
         this.txtprecio.setText("");
         this.txtnetopagar.setText("");
         this.txttotal.setText("");
-        
-
+        // Limpiamos el Spiner al borrar el formulario regresando al valor inicial
+        this.spcantidad.setValue(1);
     }//GEN-LAST:event_btnlimpiarActionPerformed
 
     private void btnquitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnquitarActionPerformed
-        // TODO add your handling code here:
-        modelo.removeRow(this.tabledetalles.getSelectedColumn());
+        // Obtenemos la fila que el usuario va a seleccionar
+        int fila = tabledetalles.getSelectedRow();
+        
+        // Solo borraremos si hay unna fila seleccionada
+        if (fila >= 0) { 
+            modelo.removeRow(fila);
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(null, "Por favor, selecciona una fila para quitar.");
+        }
     }//GEN-LAST:event_btnquitarActionPerformed
 
     private void btnnetopagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnetopagarActionPerformed
@@ -669,10 +672,27 @@ public class frmRealizarCompra extends javax.swing.JPanel {
             sumatorial+=sumatoria;
             
         }
-        txtnetopagar.setText("S."+String.valueOf(sumatorial));
+        txtnetopagar.setText(String.valueOf(sumatorial));
         
         
     }//GEN-LAST:event_btnnetopagarActionPerformed
+    
+    private void limpiarTabla(){
+        // Mientras que el conteo de las filas sean mayores a 0
+        while (this.modelo.getRowCount() > 0) {
+        // Borramos la primera fila que este disponible
+        this.modelo.removeRow(0);
+    }
+        
+    }
+   
+    private void txtprecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtprecioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtprecioActionPerformed
+
+    private void txttotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttotalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txttotalActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
