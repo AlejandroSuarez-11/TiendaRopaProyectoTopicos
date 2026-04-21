@@ -1,0 +1,84 @@
+package com.mycompany.tiendaropa.Util;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+/**
+ *
+ * @author Lizania
+ */
+public class BotonPromocion extends JButton {
+    
+    public BotonPromocion() {
+        setText("Ver Promociones");
+        setFont(new Font("Arial", Font.BOLD, 14));
+        setForeground(Color.WHITE);
+        setBackground(new Color(41, 128, 185));
+        setFocusPainted(false);
+        setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JDialog dialog = new JDialog();
+                dialog.setTitle("Promociones");
+                dialog.setSize(450, 400);
+                dialog.setLocationRelativeTo(null);
+                dialog.setModal(true);
+                dialog.setLayout(new BorderLayout());
+                
+                JPanel panelContenido = new JPanel();
+                panelContenido.setLayout(new BoxLayout(panelContenido, BoxLayout.Y_AXIS));
+                panelContenido.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                
+                JLabel titulo = new JLabel("¡OFERTAS ESPECIALES!");
+                titulo.setFont(new Font("Arial", Font.BOLD, 18));
+                titulo.setForeground(new Color(255, 69, 0));
+                titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+                panelContenido.add(titulo);
+                String[] promos = {"• APROVECHA LOS DESCUENTOS DISPONIBLES!!!"};
+                
+                for (String promo : promos) {
+                    JLabel labelPromo = new JLabel(promo);
+                    labelPromo.setFont(new Font("Arial", Font.BOLD, 14));
+                    labelPromo.setForeground(new Color(199, 62, 136));
+                    labelPromo.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    panelContenido.add(labelPromo);
+                    panelContenido.add(Box.createRigidArea(new Dimension(0, 5)));
+                }
+                
+                panelContenido.add(Box.createRigidArea(new Dimension(0, 10)));
+                
+                JLabel imagenLabel = new JLabel();
+                try {
+                        ImageIcon promocion = new ImageIcon(getClass().getResource("/promocion.jpg"));                        
+                        if (promocion.getImageLoadStatus() == MediaTracker.COMPLETE) {
+                        Image imagen = promocion.getImage().getScaledInstance(400, 280, Image.SCALE_SMOOTH);
+                        imagenLabel.setIcon(new ImageIcon(imagen));
+                    }
+                } catch (Exception ex) {
+                    imagenLabel.setText("⭐ OFERTA ESPECIAL ⭐");
+                    imagenLabel.setFont(new Font("Arial", Font.BOLD, 16));
+                    imagenLabel.setForeground(new Color(255, 140, 0));
+                }
+                imagenLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                panelContenido.add(imagenLabel);
+                panelContenido.add(Box.createRigidArea(new Dimension(0, 15)));
+                
+                JButton btnCerrar = new JButton("Cerrar");
+                btnCerrar.setFont(new Font("Arial", Font.BOLD, 12));
+                btnCerrar.setBackground(new Color(220, 60, 50));
+                btnCerrar.setForeground(Color.WHITE);
+                btnCerrar.addActionListener(ev -> dialog.dispose());
+                
+                JPanel panelBoton = new JPanel();
+                panelBoton.add(btnCerrar);
+                
+                dialog.add(panelContenido, BorderLayout.CENTER);
+                dialog.add(panelBoton, BorderLayout.SOUTH);
+                dialog.setVisible(true);
+            }
+        });
+    }
+}
