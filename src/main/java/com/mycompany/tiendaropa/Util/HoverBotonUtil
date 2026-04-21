@@ -1,0 +1,34 @@
+package com.mycompany.tiendaropa.Util;
+
+import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JComponent;
+
+public class HoverBotonUtil {
+
+    // Constructor privado para no permitir crear objetos de esta clase
+    private HoverBotonUtil() {
+        throw new UnsupportedOperationException();
+    }
+
+    // Aplicamos un efecto hover a cualquier componente de Swing.
+    public static void aplicarEfecto(JComponent componente, Color colorHover) {
+        // Guardamos el color original del componente
+        Color colorOriginal = componente.getBackground();
+
+        componente.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                // Cambiamos al color de hover
+                componente.setBackground(colorHover);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // Restauramos el color original
+                componente.setBackground(colorOriginal);
+            }
+        });
+    }
+}
